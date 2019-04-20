@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration status="INFO">
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">[%-5p] %d{yyyy-MM-dd HH:mm:ss.SSS} [%c{1}] - %m%n</property>
+    </properties>
+
+    <appenders>
+        <!--控制台-->
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <!-- 每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档  filename：当前正在用的日志文件
+        filePattern:指定新建日志文件的名称格式.-->
+        <rollingfile name="rollingFile" filename="logs/today.log" filepattern="logs/%d{yyyy-MM-dd}.log">
+            <!--打印格式-->
+            <PatternLayout pattern="${PATTERN}"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!--最多保存日志文件数量-->
+            <DefaultRolloverStrategy max="15"/>
+
+        </rollingfile>
+
+    </appenders>
+
+    <loggers>
+
+        <!--滚动日志，异步输出-->
+        <AsyncLogger name="com.lucky" level="INFO" additivity="false" includeLocation="true">
+            <appender-ref ref="rollingFile"/>
+            <appender-ref ref="console"/>
+        </AsyncLogger>
+
+        <root level="info">
+            <appender-ref ref="console"/>
+        </root>
+
+    </loggers>
+
+</configuration>
