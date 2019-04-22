@@ -44,6 +44,32 @@ public class RedisService {
     }
 
     /**
+     * 按照key获取对应类型的value  自动加模块前缀
+     *
+     * @param prefix
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T get(KeyPrefix prefix, String key, Class<T> clazz) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            if (prefix == null) {
+                return null;
+            }
+            String string = jedis.get(prefix.getPrefix() + key);
+            T t = stringToObj(string, clazz);
+            return t;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    /**
      * 传参，string类型放入redis
      *
      * @param key
@@ -56,10 +82,44 @@ public class RedisService {
         try {
             jedis = jedisPool.getResource();
             String valueStr = objToString(value);
-            if(StringUtils.isBlank(valueStr)){
+            if (StringUtils.isBlank(valueStr)) {
                 return false;
             }
             jedis.set(key, valueStr);
+            return true;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+
+    /**
+     * 传参，string类型放入redis,自动加前缀
+     * <p>
+     * 并设置过期时间
+     *
+     * @param prefix
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public <T> boolean set(KeyPrefix prefix, String key, T value) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String valueStr = objToString(value);
+            if (StringUtils.isBlank(valueStr) && prefix == null) {
+                return false;
+            }
+            int second = prefix.expireSeconds();
+            if (second <= 0) {
+                jedis.set(prefix.getPrefix() + key, valueStr);
+            } else {
+                jedis.setex(prefix.getPrefix() + key, second, valueStr);
+            }
             return true;
         } finally {
             if (jedis != null) {
