@@ -41,4 +41,13 @@ public final class Result<T> {
     public static Result getError(Integer code, String mess) {
         return new Result(code, mess, null);
     }
+
+    /**
+     *
+     * @param codeMsg
+     * @return
+     */
+    public static Result getError(CodeMsg codeMsg,Object... args) {
+        return new Result(codeMsg.getCode(), codeMsg.getMsg(), args);
+    }
 }

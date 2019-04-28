@@ -12,10 +12,8 @@ public enum CodeMsg {
     /**
      * 通用错误   10xx
      */
-    SERVER_EXCEPTION(1000, "服务异常"),
-    MISSING_PARAMETER(1001, "缺少必要参数"),
-    PARAMETER_FORMAT_ERROR(1002, "参数格式不正确"),
-    PARAMETER_MATCH_ERROR(1003, "参数不匹配"),
+    SERVER_EXCEPTION(1001, "服务异常"),
+    BIND_ERROR(1002, "参数校验异常"),
 
     /**
      * 登录模块异常
