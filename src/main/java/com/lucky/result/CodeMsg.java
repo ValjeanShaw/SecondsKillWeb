@@ -19,6 +19,8 @@ public enum CodeMsg {
      * 登录模块异常
      * 11xx
      */
+    MOBILE_NOT_EXIST(1101, "手机号不存在"),
+    PASSWORD_ERROR(1102, "密码错误"),
     ;
 
     private int code;

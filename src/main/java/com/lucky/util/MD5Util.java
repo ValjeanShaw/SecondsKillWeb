@@ -44,17 +44,16 @@ public class MD5Util {
     }
 
     /**
-     *
      * @param input
      * @param saltTemp
      * @return
      */
-    public static String inputToDbPass(String input, String saltTemp){
-        return formToDbPass(inputToFromPass(input),saltTemp);
+    public static String inputToDbPass(String input, String saltTemp) {
+        return formToDbPass(inputToFromPass(input), saltTemp);
     }
 
     public static void main(String[] args) {
-        System.out.println(inputToDbPass("12345","9876543210"));
+        System.out.println(inputToDbPass("12345", "9876543210"));
     }
 
 }
