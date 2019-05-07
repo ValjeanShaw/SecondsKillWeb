@@ -35,11 +35,11 @@ public class RedisPoolFactory {
         return jedisPool;
     }
 
-    public static void main(String[] args) {
-        Jedis jedis = new Jedis("39.107.68.25",6969);
-        jedis.auth("j4nc9je0&y");
-        // 查看服务是否运行
-        System.out.println("Server is running: " + jedis.ping());
-    }
+//    public static void main(String[] args) {
+//        Jedis jedis = new Jedis("39.107.68.25",6969);
+//        jedis.auth("j4nc9je0&y");
+//        // 查看服务是否运行
+//        System.out.println("Server is running: " + jedis.ping());
+//    }
 
 }
