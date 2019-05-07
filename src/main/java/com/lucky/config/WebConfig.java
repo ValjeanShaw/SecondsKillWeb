@@ -7,16 +7,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.List;
 
-//@Configuration
+@Configuration
 public class WebConfig  extends WebMvcConfigurationSupport {
 	
-//	@Autowired
-//	UserArgumentResolver userArgumentResolver;
-//
-//	@Override
-//	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//		argumentResolvers.add(userArgumentResolver);
-//	}
+	@Autowired
+	UserArgumentResolver userArgumentResolver;
+
+    /**
+     * 参数先校验，再将参数赋值给controller
+     * @param argumentResolvers
+     */
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(userArgumentResolver);
+	}
 	
 	
 }
