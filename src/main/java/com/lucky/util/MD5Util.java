@@ -2,6 +2,7 @@ package com.lucky.util;
 
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * md5 工具类
@@ -52,8 +53,17 @@ public class MD5Util {
         return formToDbPass(inputToFromPass(input), saltTemp);
     }
 
+    /**
+     * 随机生成一个盐，用于数据库入库
+     * @return
+     */
+    public static String productSalt(){
+        return RandomStringUtils.randomGraph(10);
+    }
+
     public static void main(String[] args) {
-        System.out.println(inputToDbPass("12345", "9876543210"));
+        System.out.println(inputToDbPass("123456", productSalt()));
+        System.out.println(productSalt());
     }
 
 }
