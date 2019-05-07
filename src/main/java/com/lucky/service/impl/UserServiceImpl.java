@@ -10,6 +10,7 @@ import com.lucky.service.UserService;
 import com.lucky.util.MD5Util;
 import com.lucky.util.UUIDUtil;
 import com.lucky.vo.LoginVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Service
 public class UserServiceImpl implements UserService {
-    public static final String COOKI_NAME_TOKEN = "token";
+    public static final String COOKIE_NAME_TOKEN = "token";
 
     @Autowired
     UserDao userDao;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
         if (!calcPass.equals(dbPass)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        //生成cookie
+        //生成token放入 cookie
         String token = UUIDUtil.uuid();
         addCookie(response, token, user);
         return true;
@@ -73,6 +74,25 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 获取redis中的token，并更新到cookie
+     * @param response
+     * @param token
+     * @return
+     */
+    @Override
+    public User getByToken(HttpServletResponse response, String token) {
+        if(StringUtils.isEmpty(token)) {
+            return null;
+        }
+        User user = redisService.get(UserKey.token, token, User.class);
+        //延长有效期
+        if(user != null) {
+            addCookie(response, token, user);
+        }
+        return user;
+    }
+
+    /**
      * 1.将token存入redis
      * 2.将cookie存入reponse，返回给前端
      *
@@ -82,7 +102,7 @@ public class UserServiceImpl implements UserService {
      */
     private void addCookie(HttpServletResponse response, String token, User user) {
         redisService.set(UserKey.token, token, user);
-        Cookie cookie = new Cookie(COOKI_NAME_TOKEN, token);
+        Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(UserKey.token.expireSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);

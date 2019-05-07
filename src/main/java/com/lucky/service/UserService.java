@@ -1,5 +1,6 @@
 package com.lucky.service;
 
+import com.lucky.domain.User;
 import com.lucky.vo.LoginVo;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,4 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface UserService {
 
     boolean login(LoginVo loginVo, HttpServletResponse response);
+
+    User getByToken(HttpServletResponse response, String token);
 }
