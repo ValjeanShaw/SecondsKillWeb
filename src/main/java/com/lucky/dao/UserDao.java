@@ -10,7 +10,12 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface UserDao {
-	
+
+	/**
+	 * 根据id查询用户
+	 * @param id
+	 * @return
+	 */
 	@Select("select * from user where id = #{id}")
 	public User getById(@Param("id") long id);
 }
