@@ -21,6 +21,10 @@ public enum CodeMsg {
      */
     MOBILE_NOT_EXIST(1101, "手机号不存在"),
     PASSWORD_ERROR(1102, "密码错误"),
+
+
+    MIAO_SHA_OVER(2101, "商品已经秒杀完"),
+    REPEATE_MIAOSHA(2102, "不能重复秒杀"),
     ;
 
     private int code;

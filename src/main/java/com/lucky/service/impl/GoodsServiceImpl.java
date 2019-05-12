@@ -2,6 +2,7 @@ package com.lucky.service.impl;
 
 
 import com.lucky.dao.GoodsDao;
+import com.lucky.domain.MiaoshaGoods;
 import com.lucky.service.GoodsService;
 import com.lucky.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,11 @@ public class GoodsServiceImpl implements GoodsService {
 		return goodsDao.getGoodsVoByGoodsId(goodsId);
 	}
 
+
+	@Override
+	public void reduceStock(GoodsVo goods) {
+		MiaoshaGoods g = new MiaoshaGoods();
+		g.setGoodsId(goods.getId());
+		goodsDao.reduceStock(g);
+	}
 }

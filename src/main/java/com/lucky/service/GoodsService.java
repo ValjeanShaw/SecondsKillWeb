@@ -21,4 +21,10 @@ public interface GoodsService {
      * @return
      */
     public GoodsVo getGoodsVoByGoodsId(long goodsId);
+
+    /**
+     * 减少一件库存
+     * @param goods
+     */
+    public void reduceStock(GoodsVo goods);
 }
