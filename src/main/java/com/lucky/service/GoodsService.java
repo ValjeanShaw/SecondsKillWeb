@@ -9,5 +9,16 @@ import java.util.List;
  * @date 2019/05/08
  */
 public interface GoodsService {
+    /**
+     * 列出所有的商品
+     * @return
+     */
     public List<GoodsVo> listGoodsVo();
+
+    /**
+     * 按照商品的id展示商品详情
+     * @param goodsId
+     * @return
+     */
+    public GoodsVo getGoodsVoByGoodsId(long goodsId);
 }
